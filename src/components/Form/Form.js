@@ -1,29 +1,25 @@
 import { useState } from 'react';
-import { addUser } from 'redux/actions';
-// import { connect } from 'react-redux';
+import { add } from 'redux/reducer';
 import { useDispatch } from 'react-redux';
 
-// import PropTypes from 'prop-types';
 import s from './form.module.css';
 
-// const Form = ({onSubmit}) {
 const Form = () => {
   const [user, setUser] = useState({
     name: '',
-    number: ''
+    number: '',
   });
   const dispatch = useDispatch();
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    // onSubmit({ ...user });
-    dispatch(addUser(user))
+    dispatch(add(user));
 
     setUser({
       name: '',
-      number: ''
-    })
+      number: '',
+    });
   };
 
   const handleChange = e => {
@@ -31,8 +27,8 @@ const Form = () => {
 
     setUser(prevUser => ({
       ...prevUser,
-      [name]: value
-    }))
+      [name]: value,
+    }));
   };
 
   return (
@@ -69,15 +65,5 @@ const Form = () => {
     </form>
   );
 };
-
-// Form.propTypes = {
-//   onSubmit: PropTypes.func.isRequired,
-// };
-
-// const mapDispatchToProps = dispatch => ({
-//   onSubmit: (text) => dispatch(addUser(text))
-// })
-
-// export default connect(null, mapDispatchToProps)(Form);
 
 export default Form;
