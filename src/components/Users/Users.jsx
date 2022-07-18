@@ -1,24 +1,10 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { remove,filter } from 'redux/reducer';
-import { getfilteredUsers } from 'redux/selectors';
+import { useFetchContactsQuery, useDeleteContactMutation } from 'redux/slice';
 
 import s from './users.module.css';
 
 const Users = () => {
-  const users = useSelector(getfilteredUsers);
-  const dispatch = useDispatch();
-
-  const onRemoveUser = id => dispatch(remove(id));
-  const onHandleFilter = e => dispatch(filter(e.target.value));
-
-  const elements = users.map(({ id, name, number }) => (
-    <li className={s.item} key={id}>
-      {name}: {number}{' '}
-      <button className={s.btn} onClick={() => onRemoveUser(id)}>
-        Delete
-      </button>
-    </li>
-  ));
+  const { data, isFetching } = useFetchContactsQuery();
+  const [deleteContact] = useDeleteContactMutation();
 
   return (
     <>
@@ -29,10 +15,21 @@ const Users = () => {
           type="text"
           name="filter"
           placeholder="enter the name"
-          onChange={onHandleFilter}
+          // onChange={onHandleFilter}
         ></input>
       </label>
-      <ul>{elements}</ul>
+      {isFetching && <p>...Loading</p>}
+      <ul>
+        {data &&
+          data.map(({ id, name, phone }) => (
+            <li className={s.item} key={id}>
+              {name}: {phone}{' '}
+              <button className={s.btn} onClick={() => deleteContact(id)}>
+                Delete
+              </button>
+            </li>
+          ))}
+      </ul>
     </>
   );
 };

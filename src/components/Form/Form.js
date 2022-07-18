@@ -1,24 +1,23 @@
 import { useState } from 'react';
-import { add } from 'redux/reducer';
-import { useDispatch } from 'react-redux';
+import { useAddContactMutation } from 'redux/slice';
 
 import s from './form.module.css';
 
 const Form = () => {
   const [user, setUser] = useState({
     name: '',
-    number: '',
+    phone: '',
   });
-  const dispatch = useDispatch();
+  const [addContact, { isLoading }] = useAddContactMutation();
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    dispatch(add(user));
+    addContact(user);
 
     setUser({
       name: '',
-      number: '',
+      phone: '',
     });
   };
 
@@ -47,19 +46,19 @@ const Form = () => {
         />
       </label>
       <label className={s.label}>
-        Number
+        Phone
         <input
           className={s.inputt}
-          value={user.number}
+          value={user.phone}
           type="tel"
-          name="number"
+          name="phone"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
           onChange={handleChange}
         />
       </label>
-      <button className={s.btn} type="submit">
+      <button className={s.btn} type="submit" disabled={isLoading}>
         Add contact
       </button>
     </form>
