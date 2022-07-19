@@ -26,12 +26,6 @@ export const contactsApi = createApi({
       }),
       invalidatesTags: ['Post'],
     }),
-    // filterContact: builder.mutation({
-    //   query: name => ({
-    //     url: `/contacts`,
-    //   }),
-    //   invalidatesTags: ['Post'],
-    // }),
   }),
 });
 
